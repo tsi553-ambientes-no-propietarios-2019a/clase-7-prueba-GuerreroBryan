@@ -1,32 +1,20 @@
 <?php
-include('php/connection.php');
-if ($_POST) {
-		if (isset($_POST['user'])&&isset($_POST['pass'])&&!empty($_POST['user'])&&!empty($_POST['pass'])) {
-			$nusuario = $_POST['user'];
-			$nclave = $_POST['pass'];
-    		$sqlselect =  "SELECT * FROM `tienda` WHERE `idUsuario` = '$nusuario'";
-    		$res = $conn->query($sqlselect);
-			if ($conn->error) {
-				header('Location: nuevo.php?message_error=Error en la insercion'.$conn->error);
-			}else{
-				//echo 'Registro correcto!';
-			}
-		}else{
-			header('Location: nuevo.php?message_error=Llene todos los campos');
-		}
-	}
+    include('php/connection.php');
+    session_start();
+    
+    $usuario = $_POST['usuario'];
+    $clave = $_POST['clave1'];
+    $q= "SELECT COUNT(*) as contar from tienda where idUsuario = '$usuario' and idClave = '$clave'"; 
+    $consulta = mysqli_query($conn,$q);
+    $array=mysqli_fetch_array($consulta);
+    var_dump($consulta);
+    if($array['contar'] > 0)
+    {
+        $_SESSION['username'] = $usuario;
+        header("location: inicio.php");
+    }
+    else
+    {
+        echo "datos incorrectos";
+    }
 ?>
-
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Registro Exitoso</title>
-</head>
-<body>
-	<center>
-		<h1>Sus datos han sido registrados correctamente puede acceder al inicio</h1>
-		<a href="inicio.php">INICIO</a>
-	</center>
-</body>
-</html>

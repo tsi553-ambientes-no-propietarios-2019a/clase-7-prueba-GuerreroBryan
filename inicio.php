@@ -1,57 +1,63 @@
 <?php
 include('php/connection.php');
-
-		$sql = ("SELECT idUsuario FROM tienda");
-		$sql1 = ("SELECT nomTienda FROM tienda");
-		// Show used memory
-		$result = mysqli_query($conn, $sql);
-		$result1 = mysqli_query($conn, $sql1);
-		echo $result1->fetch_object()->nomTienda. "<br>";
-		echo "BIENVENIDO"." " .$result->fetch_object()->idUsuario;
+session_start();
+$usuario = $_SESSION['username'];
+if(!isset($usuario))
+{
+    header("location: index.php");
+}else
+{
+    echo "<h1> Bienvenido $usuario </h1>";
+}
 ?>
+
+<?php
+    $conexion=mysqli_connect('localhost','root','','pruebab1');
+?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Inicio</title>
+    <title>Mostrar datos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 <body>
-    <center>
-        <h2>Productos</h2>
-
-        
-        <table border="1">
-		<tr>
-			<tH>Codigo</tH>
-			<th>Nombre</th>
-			<th>Tipo</th>
-			<th>Stock</th>
-			<th>Precio</th>
-		</tr>
-
-		<?php
-			$sqlquery = "SELECT * FROM producto";
-			$res = $conn->query($sqlquery);
-			while ($mostrar = $res->fetch_assoc()) {
-			
-		?>
-		<tr>
-            <td><?php echo $mostrar['codigo']?></td>
-			<td><?php echo $mostrar['nombre']?></td>
-			<td><?php echo $mostrar['tipo']?></td>
-			<td><?php echo $mostrar['stock']?></td>
-			<td><?php echo $mostrar['precio']?></td>
-		</tr>
-
-		<?php
-			}
-		?>
+    <br>
+    <table border="1">
+        <tr>
+            <td><strong>codigo</strong></td>
+            <td><strong>producto</strong></td>
+            <td><strong>tipo</strong></td>
+            <td><strong>cantidad</strong></td>
+            <td><strong>precio</strong></td>
+        </tr>
+            <?php
+            $sql="SELECT * from producto";
+            $result = mysqli_query($conn,$sql);
             
-	</table>
-        <br>
-        <a href="registroProducto.php">Ingresar Nuevo Producto</a>
-        <a href="index.php">Salir</a>
-    </center>
-	
+            while($mostrar=mysqli_fetch_array($result))
+            {
+            
+            ?>
+        <tr>
+            <td><?php echo $mostrar['codigo']?></td>
+            <td><?php echo $mostrar['producto']?></td>
+            <td><?php echo $mostrar['tipo']?></td>
+            <td><?php echo $mostrar['stock']?></td>
+            <td><?php echo $mostrar['precio']?></td>
+        </tr>
+        <?php
+            }
+        ?>
+    </table>
+
+    <br><br>
+
+    <a class='btn btn-primary' href='logica/salir.php'role='button'>salir</a>
+    <a class='btn btn-primary' href='nuevo_producto.php'>registrar productos</a>
+   
+
 </body>
 </html>
