@@ -55,8 +55,8 @@ if(!isset($usuario))
 
     <br><br>
 
-    <a class='btn btn-primary' href='logica/salir.php'role='button'>salir</a>
-    <a class='btn btn-primary' href='nuevo_producto.php'>registrar productos</a>
+    <a class='btn btn-primary' href='inicio.php'role='button'>Salir</a>
+    <a class='btn btn-primary' href='registroProducto.php'>Registrar Productos</a>
    
 
 </body>
